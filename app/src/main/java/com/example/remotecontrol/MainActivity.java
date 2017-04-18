@@ -100,9 +100,10 @@ public class MainActivity extends AppCompatActivity {
         public SimpleFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
             list = new ArrayList<>();
-            list.add(new LctfFragment("LCTF参数"));
-            list.add(new ShowPictureFragment("图像显示"));
+
+//            list.add(new ShowPictureFragment("图像显示"));
             list.add(new CameraFragment("CCD参数"));
+            list.add(new LctfFragment("LCTF参数"));
         }
 
         @Override
