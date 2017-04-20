@@ -3,11 +3,13 @@ package com.example.remotecontrol;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -73,8 +75,8 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
+
 
     @Nullable
     @Override
@@ -257,7 +259,8 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                         if (recvMessage.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
 
                             Toast.makeText(getActivity(), "connect success!", Toast.LENGTH_SHORT).show();
-
+//                            连接成功就要调用刷新参数的功能，否则预览之后直接保存成jpg,会导致服务器端的相机获取视频流函数执行崩溃。
+                            getParameter();
                         } else {
 
                             Toast.makeText(getActivity(), "connect failure!", Toast.LENGTH_SHORT).show();
@@ -271,6 +274,7 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 
 
     private void getParameter() {
+        LogUtil.d(TAG,"---getParameter--");
         RequestBody requestBody = RequestBody.create(mediaType, CameraDao.jsonGetParameter());
         HttpUtil.post(requestBody, new Callback() {
             @Override
@@ -307,7 +311,7 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 
                         }
                         LogUtil.d(TAG, "---" + recvMessage.getDescribe());
-
+                        Toast.makeText(getActivity(),recvMessage.getDescribe(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -318,13 +322,43 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 
     private void setParameter() {
         Camera camera = new Camera();
+        String strExposure = tvExposure.getText().toString();
+        if (TextUtils.isEmpty(strExposure)){
+            return;
+        }
 
-        camera.setExposure(Float.parseFloat(tvExposure.getText().toString()));
-        camera.setGain(Float.parseFloat(tvGain.getText().toString()));
-        camera.setHeigh(Integer.parseInt(tvHeight.getText().toString()));
-        camera.setWidth(Integer.parseInt(tvWidth.getText().toString()));
-        camera.setxOffset(Integer.parseInt(tvXOffset.getText().toString()));
-        camera.setyOffset(Integer.parseInt(tvYOffset.getText().toString()));
+        String strGain = tvGain.getText().toString();
+        if (TextUtils.isEmpty(strExposure)){
+            return;
+        }
+
+        String strHeight = tvHeight.getText().toString();
+        if (TextUtils.isEmpty(strExposure)){
+            return;
+        }
+
+        String strWidth = tvWidth.getText().toString();
+        if (TextUtils.isEmpty(strWidth)){
+            return;
+        }
+
+        String strXOffset = tvXOffset.getText().toString();
+        if (TextUtils.isEmpty(strXOffset)){
+            return;
+        }
+
+        String strYOffset = tvYOffset.getText().toString();
+        if (TextUtils.isEmpty(strYOffset)){
+            return;
+        }
+
+
+        camera.setExposure(Float.parseFloat(strExposure));
+        camera.setGain(Float.parseFloat(strGain));
+        camera.setHeigh(Integer.parseInt(strHeight));
+        camera.setWidth(Integer.parseInt(strWidth));
+        camera.setxOffset(Integer.parseInt(strXOffset));
+        camera.setyOffset(Integer.parseInt(strYOffset));
 
 
         if (rg.getCheckedRadioButtonId() == R.id.bit8) {
@@ -352,22 +386,14 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                     @Override
                     public void run() {
                         if (message.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
-
                             Toast.makeText(getActivity(), message.getDescribe(), Toast.LENGTH_SHORT).show();
-                            ;
-
                         } else {
-
                             Toast.makeText(getActivity(), message.getDescribe(), Toast.LENGTH_SHORT).show();
-                            ;
                         }
-
                     }
                 });
-
             }
         });
-
     }
 
 //    private PreviewThread previewThread = null;
@@ -396,10 +422,8 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                     @Override
                     public void run() {
                         if (message.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
-
                         }
                         Toast.makeText(getActivity(), message.getDescribe(), Toast.LENGTH_SHORT).show();
-
                     }
                 });
 
@@ -408,8 +432,6 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 ////                        previewThread = new PreviewThread();
 ////                    }
 ////                    previewThread.start();
-//
-//
 //                }
 
             }
@@ -502,7 +524,7 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
             RequestBody requestBody = RequestBody.create(mediaType, params[0]);
 
             Request.Builder builder = new Request.Builder();
-            builder.post(requestBody).url("http://10.0.2.2:8888/reg?");
+            builder.post(requestBody).url(HttpUtil.url_pref);
             Response response = null;
 
             try {

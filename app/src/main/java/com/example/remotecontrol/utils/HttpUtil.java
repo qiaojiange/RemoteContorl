@@ -16,15 +16,13 @@ import okhttp3.RequestBody;
 
 public class HttpUtil {
     private static final String TAG = "HttpUtil";
-    private static String url_pref = "http://10.0.2.2:8888/reg?";
+//    public static  String ipAddress = "10.0.2.2";
+//    private static String port = "8888";
+    public static String url_pref = "http://10.0.2.2:8888/reg?";
+//    public  String url_pref = "http://"+ipAddress+":"+port+"/reg?";
     public static OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10000, TimeUnit.MILLISECONDS).build();
 
-    public static void  get(String params,Callback callback){
-        String url = url_pref+params;
-        LogUtil.d(TAG,"url = "+url);
-        Request request = new Request.Builder().url(url).build();
-        client.newCall(request).enqueue(callback);
-    }
+
 
 
 //    这个地方没有测试过

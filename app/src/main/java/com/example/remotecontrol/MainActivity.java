@@ -14,11 +14,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+import com.example.remotecontrol.utils.HttpUtil;
+import com.example.remotecontrol.utils.SPUtil;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Request;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +72,33 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.setting:
                 Log.d(TAG, "onOptionsItemSelected: setting");
+                Toast.makeText(getApplicationContext(),"setting",Toast.LENGTH_SHORT).show();
+                final TableLayout ipAddressForm = (TableLayout)getLayoutInflater().inflate(R.layout.ip_address,null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(ipAddressForm);
+                builder.setTitle("Please input ip address");
+                builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        EditText ipAddress = (EditText) ipAddressForm.findViewById(R.id.ipAddress);
+
+                        //修改ip地址
+//                        HttpUtil.ipAddress = ipAddress.getText().toString();
+
+                        HttpUtil.url_pref = "http://"+ipAddress.getText().toString()+":8888/reg?";
+//                        Request request = new Request.Builder().url(HttpUtil.url_pref).
+//                        HttpUtil.client.newCall
+                    }
+                }).setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+
+
                 break;
+
 
         }
         return true;

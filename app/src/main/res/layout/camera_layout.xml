@@ -16,13 +16,12 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="300dp"
                 android:id="@+id/image"
                 android:background="#000"
                 />
 
             <TableLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TableRow
@@ -35,6 +34,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
+
                         />
                     <EditText
                         android:textSize="20sp"
@@ -43,13 +43,9 @@
                         android:id="@+id/exposure"
                         android:layout_width="0dp"
                         android:layout_weight="1"
-
+                        android:background="@drawable/bg_border"
                         android:layout_height="match_parent"
                         />
-                </TableRow>
-
-                <TableRow
-                    android:layout_height="50dp">
                     <TextView
                         android:textSize="20sp"
                         android:text="Gain"
@@ -68,7 +64,10 @@
                         android:layout_weight="1"
                         android:layout_height="match_parent"
                         />
+
                 </TableRow>
+
+
 
 
                 <TableRow
@@ -91,10 +90,6 @@
                         android:layout_weight="1"
                         android:layout_height="match_parent"
                         />
-                </TableRow>
-
-                <TableRow
-                    android:layout_height="50dp">
                     <TextView
                         android:textSize="20sp"
                         android:text="Height"
@@ -135,10 +130,6 @@
                         android:layout_weight="1"
                         android:layout_height="match_parent"
                         />
-                </TableRow>
-
-                <TableRow
-                    android:layout_height="50dp">
                     <TextView
                         android:textSize="20sp"
                         android:text="Y Offset"
@@ -158,6 +149,8 @@
                         android:layout_height="match_parent"
                         />
                 </TableRow>
+
+
 
                 <TableRow android:layout_height="50dp">
                     <TextView
@@ -191,10 +184,8 @@
                             android:layout_height="match_parent" />
 
                     </RadioGroup>
-
-
                 </TableRow>
-
+<!--下面是按钮控件-->
                 <TableRow android:layout_height="50dp">
                     <Button
                         android:text="Connect"
@@ -211,45 +202,7 @@
                         android:layout_weight="1"
                         />
 
-                </TableRow>
 
-
-                <TableRow android:layout_height="50dp">
-                    <Button
-                        android:text="Refresh"
-                        android:id="@+id/refresh"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-
-                    <Button
-                        android:text="Start Preview"
-                        android:id="@+id/start_preview"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-                </TableRow>
-
-
-
-                <TableRow android:layout_height="50dp">
-                    <Button
-                        android:text="Stop Preview"
-                        android:id="@+id/stop_preview"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-
-                    <Button
-                        android:text="Trans Picture"
-                        android:id="@+id/trans_picture"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
                 </TableRow>
 
                 <TableRow android:layout_height="50dp">
@@ -267,7 +220,42 @@
                         android:gravity="center"
                         android:layout_weight="1"
                         />
+                    <Button
+                        android:text="Refresh"
+                        android:id="@+id/refresh"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        />
                 </TableRow>
+
+                <TableRow android:layout_height="50dp">
+
+                    <Button
+                        android:text="Start Preview"
+                        android:id="@+id/start_preview"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        />
+
+
+                    <Button
+                        android:text="Trans Picture"
+                        android:id="@+id/trans_picture"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        />
+                    <Button
+                        android:text="Stop Preview"
+                        android:id="@+id/stop_preview"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        />
+                </TableRow>
+
 
             </TableLayout>
         </LinearLayout>
