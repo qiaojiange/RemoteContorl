@@ -10,22 +10,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:id="@+id/image"
-                android:background="#000"
-                />
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
+
+                <TableRow android:layout_height="30dp">
+                    <Button
+                        android:text="Connect"
+                        android:id="@+id/connect"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        />
+                    <Button
+                        android:text="Disconnect"
+                        android:id="@+id/disconnect"
+                        android:layout_width="0dp"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        />
+                </TableRow>
+
                 <TableRow
-                    android:layout_height="50dp">
+                    android:layout_height="30dp">
                     <TextView
                         android:textSize="20sp"
                         android:text="Exposure"
@@ -71,7 +84,7 @@
 
 
                 <TableRow
-                    android:layout_height="50dp">
+                    android:layout_height="30dp">
                     <TextView
                         android:textSize="20sp"
                         android:text="Width"
@@ -111,7 +124,7 @@
                 </TableRow>
 
                 <TableRow
-                    android:layout_height="50dp">
+                    android:layout_height="30dp">
                     <TextView
                         android:textSize="20sp"
                         android:text="X Offset"
@@ -152,7 +165,7 @@
 
 
 
-                <TableRow android:layout_height="50dp">
+                <TableRow android:layout_height="30dp">
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -185,25 +198,21 @@
 
                     </RadioGroup>
                 </TableRow>
-<!--下面是按钮控件-->
-                <TableRow android:layout_height="50dp">
-                    <Button
-                        android:text="Connect"
-                        android:id="@+id/connect"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-                    <Button
-                        android:text="Disconnect"
-                        android:id="@+id/disconnect"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
+
+            </TableLayout>
 
 
-                </TableRow>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/image"
+                android:background="#000"
+                />
+
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <TableRow android:layout_height="50dp">
                     <Button
@@ -259,9 +268,6 @@
 
             </TableLayout>
         </LinearLayout>
-
-
-
 
     </ScrollView>
 

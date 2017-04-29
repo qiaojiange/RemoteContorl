@@ -36,6 +36,7 @@ public class CameraDao {
         SendMessage message = new SendMessage();
         message.setDeviceName(DeviceName);
         message.setOperateId(Camera.OperateId.CAMERA_CONNECT.getVal());
+
         return gson.toJson(message);
     }
 
