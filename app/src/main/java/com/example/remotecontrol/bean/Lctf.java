@@ -1,5 +1,7 @@
 package com.example.remotecontrol.bean;
 
+import java.util.List;
+
 /**
  * Created by qiaojiange on 2017/4/29.
  */
@@ -11,7 +13,25 @@ public class Lctf {
     private boolean bConnect;
     private boolean bModeRead;
     private boolean bWorkRead;
-    //private boolean
+
+     public  static class Port{
+        public Port() {
+        }
+
+        private List<String> port;
+
+        public List<String> getPort() {
+            return port;
+        }
+
+        public void setPort(List<String> port) {
+            this.port = port;
+        }
+    }
+
+    public enum LctfStatus{
+        LCTF_STATUS_ERROR,LCTF_STATUS_OK
+    }
 
     /**
      * 模式信息
@@ -219,6 +239,53 @@ public class Lctf {
      * 定义操作
      */
     public enum  OperateId{
+        /**
+         * 刷新串口
+         */
+        LCTF_FRESH_SERIAL_PORT(0),
+        /**
+         *打开串口
+         */
+        LCTF_OPEN_SERIAL_PORT(1),
+        /**
+         *关闭串口
+         */
+        LCTF_CLOSE_SERIAL_PORT(2),
+        /**
+         *读内部参数
+         */
+        LCTF_READ_INTER_PARAMS(3),
+        /**
+         *写内部参数
+         */
+        LCTF_WRITE_INTER_PARAMS(4),
+        /**
+         *开始工作
+         */
+        LCTF_START_WORK(5),
+        /**
+         *停止工作
+         */
+        LCTF_STOP_WORK(6),
 
+        /**
+         * 读基本信息
+         */
+        LCTF_READ_BASIC_INFO(7),
+
+        /**
+         * 读温度信息
+         */
+        LCTF_READ_TEMP_INFO(8);
+
+        private int val;
+
+        OperateId(int val) {
+            this.val = val;
+        }
+
+        public int getVal() {
+            return val;
+        }
     }
 }

@@ -22,7 +22,7 @@ public class HttpUtil {
 //    public  String url_pref = "http://"+ipAddress+":"+port+"/reg?";
     public static OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10000, TimeUnit.MILLISECONDS).build();
 
-
+    public static final String CONTENT_LENGTH = "Content-Length";
 
 
 //    这个地方没有测试过

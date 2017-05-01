@@ -16,7 +16,7 @@ public class RecvMessage {
     private String deviceName;
 
     //设备接口
-    public String device;
+    public String params;
 
     public int getStatus() {
         return status;
@@ -42,11 +42,11 @@ public class RecvMessage {
         this.deviceName = deviceName;
     }
 
-    public String getDevice() {
-        return device;
+    public String getParams() {
+        return params;
     }
 
-    public void setDevice(String device) {
-        this.device = device;
+    public void setParams(String params) {
+        this.params = params;
     }
 }

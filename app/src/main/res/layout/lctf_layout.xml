@@ -23,6 +23,8 @@
 
             <include layout="@layout/lctf_basic_info"/>
 
+            <include layout="@layout/status"/>
+
             <include layout="@layout/lctf_inter_params"/>
 
         </LinearLayout>

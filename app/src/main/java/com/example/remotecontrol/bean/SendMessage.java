@@ -16,14 +16,17 @@ public class SendMessage {
      */
     private int operateId;
 
-    private String device;
+    /**
+     * 参数
+     */
+    private String params;
 
-    public String getDevice() {
-        return device;
+    public String getParams() {
+        return params;
     }
 
-    public void setDevice(String device) {
-        this.device = device;
+    public void setParams(String params) {
+        this.params = params;
     }
 
     public String getDeviceName() {

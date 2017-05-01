@@ -61,7 +61,7 @@ public class CameraDao {
         sendMessage.setOperateId(Camera.OperateId.CAMERA_SET_PARAMETER.getVal());
 
         String strCamera = gson.toJson(camera);
-        sendMessage.setDevice(strCamera);
+        sendMessage.setParams(strCamera);
 
         return gson.toJson(sendMessage);
     }

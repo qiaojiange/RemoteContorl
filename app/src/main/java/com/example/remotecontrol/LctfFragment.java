@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -18,8 +19,26 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.remotecontrol.bean.Lctf;
+import com.example.remotecontrol.bean.RecvMessage;
 import com.example.remotecontrol.bean.SendMessage;
+import com.example.remotecontrol.model.LctfDao;
+import com.example.remotecontrol.utils.HttpUtil;
 import com.example.remotecontrol.utils.LogUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
+
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by qiaojiange on 2017/3/16.
@@ -107,9 +126,21 @@ public class LctfFragment extends CustumFragment implements View.OnClickListener
     private Button btStopWork;
 
 
+    private LctfDao lctfDao = new LctfDao();
+
     public LctfFragment(String title) {
         super(title);
     }
+
+    /**
+     *保存端口
+     */
+    private String port;
+
+    private TextView tvStatus;
+
+    //    类型
+    private static MediaType mediaType = MediaType.parse("application/json;charset=utf-8");
 
     @Nullable
     @Override
@@ -133,7 +164,8 @@ public class LctfFragment extends CustumFragment implements View.OnClickListener
         btStartWork = (Button)view.findViewById(R.id.startWork);
         btStopWork = (Button)view.findViewById(R.id.stopWork);
 
-
+        //状态信息
+        tvStatus = (TextView)view.findViewById(R.id.status);
 
 //        绑定控件
         spContinuesWork = (Spinner) view.findViewById(R.id.continueWork);
@@ -150,6 +182,24 @@ public class LctfFragment extends CustumFragment implements View.OnClickListener
         btStartWork.setOnClickListener(this);
         btStopWork.setOnClickListener(this);
 
+        /**
+         * 获取串口的数据
+         */
+        spPorts.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TextView tv = (TextView)view;
+                tv.setTextColor(Color.WHITE);
+                LogUtil.d(TAG,"----spPorts-------"+tv.getText().toString());
+                port = tv.getText().toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         spContinuesWork.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -193,15 +243,15 @@ public class LctfFragment extends CustumFragment implements View.OnClickListener
                 LogUtil.d(TAG,"----R.id.freshSerialPort---");
                 freshSerialPort();
                 break;
+
             case R.id.openSerialPort:
                 LogUtil.d(TAG,"----R.id.openSerialPort---");
-
+                openSerialPort();
                 break;
 
             case R.id.closeSerialPort:
                 LogUtil.d(TAG,"----R.id.closeSerialPort---");
-
-
+                closeSerialPort();
                 break;
 
             case R.id.readInterParams:
@@ -230,9 +280,109 @@ public class LctfFragment extends CustumFragment implements View.OnClickListener
         }
     }
 
+
+//关闭串口
+    private void closeSerialPort() {
+        RequestBody body = RequestBody.create(mediaType,lctfDao.jsonCloseSerialPort());
+        HttpUtil.post(body, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
+    }
+
+    private void openSerialPort() {
+        if (port == null || port.length() == 0){
+            return ;
+        }
+
+        RequestBody body = RequestBody.create(mediaType,lctfDao.jsonOpenSerialPort(port));
+        HttpUtil.post(body, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String strLen = response.header(HttpUtil.CONTENT_LENGTH);
+
+                byte[] data = response.peekBody(Integer.parseInt(strLen)).bytes();
+                String strTemp = new String(data,"utf-8");
+
+                final RecvMessage message = LctfDao.gson.fromJson(strTemp,RecvMessage.class);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(message.getStatus() ==Lctf.LctfStatus.LCTF_STATUS_ERROR.ordinal() ){
+                            tvStatus.setText("状态信息：\n\t"+message.getDescribe());
+                        }else{
+                            tvStatus.setText("状态信息：\n\t"+message.getDescribe());
+                        }
+
+                    }
+                });
+
+
+            }
+        });
+    }
+
+
+//刷新串口
     private void freshSerialPort() {
-        SendMessage message = new SendMessage();
-        message.setDeviceName("");
+
+        RequestBody body = RequestBody.create(mediaType,lctfDao.jsonFreshSerialPort());
+        HttpUtil.post(body, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//                String strLen = response.header("Content-Length");
+//                LogUtil.d(TAG,"--strlen-----"+strLen);
+//                byte[] data = response.peekBody(Integer.parseInt(strLen)).bytes();
+//
+//                String str = new String(data,"utf-8");
+//                LogUtil.d(TAG,"--------"+str);
+
+//                String str = new String(response.peekBody(Integer.parseInt(strLen)).bytes(), "utf-8");
+//                LogUtil.d(TAG, "---" + str);
+
+                String strLen = response.header("Content-Length");
+                LogUtil.d(TAG,"--strlen-----"+strLen);
+                String str = new String(response.peekBody(Integer.parseInt(strLen)).bytes(), "utf-8");
+                LogUtil.d(TAG, "---" + str);
+
+                RecvMessage recvMessage = LctfDao.gson.fromJson(str,RecvMessage.class);
+
+                String strParams = recvMessage.getParams();
+               // LctfDao.gson.
+
+                LogUtil.d(TAG,"---------"+strParams);
+                Lctf.Port port = LctfDao.gson.fromJson(strParams,Lctf.Port.class);
+
+                final String[] ports = port.getPort().toArray(new String[0]);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,ports);
+
+                        spPorts.setAdapter(adapter);
+                    }
+                });
+
+            }
+        });
 
     }
 }

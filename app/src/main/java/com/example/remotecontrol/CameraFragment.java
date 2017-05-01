@@ -65,7 +65,7 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 
     //    类型
     private static MediaType mediaType = MediaType.parse("application/json;charset=utf-8");
-    ;
+
 
 
     public CameraFragment(String title) {
@@ -296,7 +296,7 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                     @Override
                     public void run() {
                         if (recvMessage.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
-                            String device = recvMessage.getDevice();
+                            String device = recvMessage.getParams();
                             Camera camera = gson.fromJson(device, Camera.class);
 
                             String strTemp = String.format("%.2f", camera.getExposure());
