@@ -26,7 +26,7 @@ public class LctfDao {
     }
 
 
-    //这个地方有问题
+
     public String jsonOpenSerialPort(String port){
         SendMessage message = new SendMessage();
         message.setDeviceName(DeviceName);
@@ -39,6 +39,7 @@ public class LctfDao {
         SendMessage message = new SendMessage();
         message.setDeviceName(DeviceName);
         message.setOperateId(Lctf.OperateId.LCTF_CLOSE_SERIAL_PORT.getVal());
+
         return gson.toJson(message);
 
     }
@@ -51,28 +52,46 @@ public class LctfDao {
 
     }
 
-    public String jsonWriteInterParams(){
+    public String jsonReadBasicInfo(){
+        SendMessage message = new SendMessage();
+        message.setDeviceName(DeviceName);
+        message.setOperateId(Lctf.OperateId.LCTF_READ_BASIC_INFO.getVal());
+        return gson.toJson(message);
+
+    }
+
+    public String jsonReadTempInfo(){
+        SendMessage message = new SendMessage();
+        message.setDeviceName(DeviceName);
+        message.setOperateId(Lctf.OperateId.LCTF_READ_TEMP_INFO.getVal());
+        return gson.toJson(message);
+    }
+
+    public String jsonWriteInterParams(String params){
         SendMessage message = new SendMessage();
         message.setDeviceName(DeviceName);
         message.setOperateId(Lctf.OperateId.LCTF_WRITE_INTER_PARAMS.getVal());
+        message.setParams(params);
         return gson.toJson(message);
 
     }
 
 
 
-    public String jsonStartWork(){
+    public String jsonStartWork(int sync){
         SendMessage message = new SendMessage();
         message.setDeviceName(DeviceName);
         message.setOperateId(Lctf.OperateId.LCTF_START_WORK.getVal());
+        message.setParams(""+sync);
         return gson.toJson(message);
     }
 
 
-    public String jsonStopWork(){
+    public String jsonStopWork(int sync){
         SendMessage message = new SendMessage();
         message.setDeviceName(DeviceName);
         message.setOperateId(Lctf.OperateId.LCTF_STOP_WORK.getVal());
+        message.setParams(""+sync);
         return gson.toJson(message);
 
     }

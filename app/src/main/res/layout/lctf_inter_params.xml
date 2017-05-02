@@ -22,6 +22,7 @@
 
             <EditText
                 android:id="@+id/stareWavelength"
+                android:textColor="@color/textColor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -37,6 +38,7 @@
             <EditText
                 android:id="@+id/endWavelength"
                 android:layout_width="0dp"
+                android:textColor="@color/textColor"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </TableRow>
@@ -54,6 +56,7 @@
                 android:id="@+id/minStepWavelength"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
                 android:layout_weight="1" />
         </TableRow>
 
@@ -70,6 +73,7 @@
             <EditText
                 android:id="@+id/minSwitchTime"
                 android:layout_width="0dp"
+                android:textColor="@color/textColor"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </TableRow>
@@ -122,6 +126,7 @@
             <RadioGroup android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
+                android:id="@+id/workPartner"
                 android:layout_height="wrap_content">
 
                 <RadioButton

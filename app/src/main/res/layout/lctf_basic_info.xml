@@ -14,21 +14,33 @@
 
 
     <TextView
-        android:id="@+id/basicInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:text="基本信息"
         android:textColor="#fff"/>
 
+    <LinearLayout
+        android:id="@+id/basicInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+
 
     <TextView
-        android:id="@+id/tempInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:text="温度信息"
         android:textColor="#fff"/>
+
+    <LinearLayout
+        android:id="@+id/tempInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
 
     <RelativeLayout
         android:orientation="horizontal"
@@ -43,7 +55,7 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/readTemp"
+            android:id="@+id/readTempInfo"
             android:text="读取温度信息"
             android:layout_width="wrap_content"
             android:layout_marginRight="30dp"
@@ -52,6 +64,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 
 </LinearLayout>

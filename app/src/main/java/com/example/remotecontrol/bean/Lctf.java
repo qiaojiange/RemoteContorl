@@ -14,6 +14,29 @@ public class Lctf {
     private boolean bModeRead;
     private boolean bWorkRead;
 
+    /**
+     * 单组工作
+     */
+    public static final  int SINGLE_GRP = 1;
+
+    /**
+     * 连续工作
+     */
+    public static final  int CONTINUOUS_GRP = 2;
+
+    /**
+     * 强制工作
+     */
+    public static final  int OVR_FORCE_WORK = 4;
+
+    /**
+     * 停止工作
+     */
+    public static final  int OVR_STOP_WORK = 8;
+
+    /**
+     * 端口数组
+     */
      public  static class Port{
         public Port() {
         }
@@ -33,39 +56,77 @@ public class Lctf {
         LCTF_STATUS_ERROR,LCTF_STATUS_OK
     }
 
+
+    /**
+     * 温度信息
+     */
+    public static class TempInfo{
+        /**
+         * 设置温度
+         */
+        float setTemp;
+        /**
+         * 当前温度
+         */
+        float curTemp;
+
+        public TempInfo() {
+        }
+
+        public float getSetTemp() {
+            return setTemp;
+        }
+
+        public void setSetTemp(float setTemp) {
+            this.setTemp = setTemp;
+        }
+
+        public float getCurTemp() {
+            return curTemp;
+        }
+
+        public void setCurTemp(float curTemp) {
+            this.curTemp = curTemp;
+        }
+    }
+
     /**
      * 模式信息
      */
-   public static class ModeInfo{
+   public static class ModelInfo {
+        /**
+         * 固件版本
+         */
+        private String firmVersion;
         /**
          * 设备型号
          */
         private String equipType;
+
         /**
          * 制造商
          */
         private String vendor;
+
         /**
          * 设备序列号
          */
         private int equipSN;
+
         /**
          * 制造时间_年
          */
         private int ManDate_y;
+
         /**
          * 制造日期_月
          */
         private int ManDate_m;
+
         /**
          * 制造日期_日
          */
         private int ManDate_d;
-
-        /**
-         * 固件版本
-         */
-        int firmwareVersion;
 
         /**
          * 波长分辨率
@@ -77,9 +138,20 @@ public class Lctf {
          */
         int minSwitchTime;
 
-        public ModeInfo() {
+//        温度信息
+
+
+
+        public ModelInfo() {
         }
 
+        public String getFirmVersion() {
+            return firmVersion;
+        }
+
+        public void setFirmVersion(String firmVersion) {
+            this.firmVersion = firmVersion;
+        }
         public String getEquipType() {
             return equipType;
         }
@@ -128,13 +200,6 @@ public class Lctf {
             ManDate_d = manDate_d;
         }
 
-        public int getFirmwareVersion() {
-            return firmwareVersion;
-        }
-
-        public void setFirmwareVersion(int firmwareVersion) {
-            this.firmwareVersion = firmwareVersion;
-        }
 
         public int getWavLenRes() {
             return wavLenRes;
