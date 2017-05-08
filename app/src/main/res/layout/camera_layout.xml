@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:padding="5dp"
+
     android:layout_height="match_parent">
 
     <!--<include layout="@layout/title"/>-->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,260 +22,13 @@
             android:orientation="vertical"
             android:layout_height="wrap_content">
 
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <include layout="@layout/camera_basic_info"/>
+            <include layout="@layout/camera_video"/>
+            <include layout="@layout/camera_control"/>
 
-                <TableRow android:layout_height="30dp">
-                    <Button
-                        android:text="Connect"
-                        android:id="@+id/connect"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-                    <Button
-                        android:text="Disconnect"
-                        android:id="@+id/disconnect"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-                </TableRow>
-
-                <TableRow
-                    android:layout_height="30dp">
-                    <TextView
-                        android:textSize="20sp"
-                        android:text="Exposure"
-                        android:layout_width= "0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-
-                        />
-                    <EditText
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:id="@+id/exposure"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/bg_border"
-                        android:layout_height="match_parent"
-                        />
-                    <TextView
-                        android:textSize="20sp"
-                        android:text="Gain"
-                        android:layout_width= "0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        />
-                    <EditText
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:id="@+id/gain"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        />
-
-                </TableRow>
-
-
-
-
-                <TableRow
-                    android:layout_height="30dp">
-                    <TextView
-                        android:textSize="20sp"
-                        android:text="Width"
-                        android:layout_width= "0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        />
-                    <EditText
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:id="@+id/width"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        />
-                    <TextView
-                        android:textSize="20sp"
-                        android:text="Height"
-                        android:layout_width= "0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        />
-                    <EditText
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:id="@+id/height"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        />
-                </TableRow>
-
-                <TableRow
-                    android:layout_height="30dp">
-                    <TextView
-                        android:textSize="20sp"
-                        android:text="X Offset"
-                        android:layout_width= "0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        />
-                    <EditText
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:id="@+id/xOffset"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        />
-                    <TextView
-                        android:textSize="20sp"
-                        android:text="Y Offset"
-                        android:layout_width= "0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        />
-                    <EditText
-                        android:textSize="20sp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:id="@+id/yOffset"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        />
-                </TableRow>
-
-
-
-                <TableRow android:layout_height="30dp">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:text="Pixel format"
-                        android:textSize="20sp"
-                        android:layout_weight="1"
-                        />
-
-                    <RadioGroup
-                        android:layout_width="0dp"
-                        android:layout_weight="2"
-                        android:id="@+id/rg"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:text="8 Bit"
-                            android:textSize="20sp"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:id="@+id/bit8"
-                            android:layout_height="match_parent" />
-
-                        <RadioButton
-                            android:text="16 Bit"
-                            android:textSize="20sp"
-                            android:layout_weight="1"
-                            android:layout_width="0dp"
-                            android:id="@+id/bit16"
-                            android:layout_height="match_parent" />
-
-                    </RadioGroup>
-                </TableRow>
-
-            </TableLayout>
-
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:id="@+id/image"
-                android:background="#000"
-                />
-
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableRow android:layout_height="50dp">
-                    <Button
-                        android:text="Update"
-                        android:id="@+id/update"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-                    <Button
-                        android:text="Save image"
-                        android:id="@+id/save_image"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-                    <Button
-                        android:text="Refresh"
-                        android:id="@+id/refresh"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-                </TableRow>
-
-                <TableRow android:layout_height="50dp">
-
-                    <Button
-                        android:text="Start Preview"
-                        android:id="@+id/start_preview"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-
-
-                    <Button
-                        android:text="Trans Picture"
-                        android:id="@+id/trans_picture"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-                    <Button
-                        android:text="Stop Preview"
-                        android:id="@+id/stop_preview"
-                        android:layout_width="0dp"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
-                </TableRow>
-
-
-            </TableLayout>
         </LinearLayout>
 
     </ScrollView>
 
 
-</LinearLayout>
+</FrameLayout>

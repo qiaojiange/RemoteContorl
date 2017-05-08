@@ -11,28 +11,34 @@
         android:background="@drawable/background"
         />
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="vertical"
+        <include layout="@layout/status"/>
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <include layout="@layout/lctf_init"/>
+                <include layout="@layout/lctf_init"/>
 
-            <include layout="@layout/lctf_basic_info"/>
+                <include layout="@layout/lctf_basic_info"/>
 
-            <include layout="@layout/status"/>
+                <include layout="@layout/lctf_inter_params"/>
 
-            <include layout="@layout/lctf_inter_params"/>
-
-        </LinearLayout>
+            </LinearLayout>
 
 
+        </ScrollView>
 
+    </LinearLayout>
 
-    </ScrollView>
 
 
     

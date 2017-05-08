@@ -308,13 +308,11 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                             tvXOffset.setText("" + camera.getxOffset());
                             tvWidth.setText("" + camera.getWidth());
                             tvHeight.setText("" + camera.getHeigh());
-
                         }
                         LogUtil.d(TAG, "---" + recvMessage.getDescribe());
                         Toast.makeText(getActivity(),recvMessage.getDescribe(),Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
         });
     }
@@ -362,9 +360,9 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 
 
         if (rg.getCheckedRadioButtonId() == R.id.bit8) {
-            camera.setIs8Bit(0);//8位图片
+            camera.setIs8Bit(1);//8位图片
         } else {
-            camera.setIs8Bit(1);//16位图片
+            camera.setIs8Bit(0);//16位图片
         }
 
         RequestBody requestBody = RequestBody.create(mediaType, CameraDao.jsonSetParameter(camera));
