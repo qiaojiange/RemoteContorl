@@ -116,7 +116,10 @@ public class Camera {
         CAMERA_STOP_PREVIEW(6),
 
 //        传输图片
-        CAMERA_TRANS_PICTURE(7);
+        CAMERA_TRANS_PICTURE(7),
+
+        CAMERA_AUTO_EXPOSURE(8);
+
 
         private int  val;
 

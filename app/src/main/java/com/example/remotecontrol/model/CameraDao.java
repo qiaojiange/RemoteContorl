@@ -91,5 +91,17 @@ public class CameraDao {
     }
 
 
+    public static String jsonSavePicture() {
+        SendMessage message = new SendMessage();
+        message.setDeviceName("camera");
+        message.setOperateId(Camera.OperateId.CAMERA_SAVE_PICTURE16.getVal());
+        return gson.toJson(message);
+    }
 
+    public static String jsonAutoExposure() {
+        SendMessage message = new SendMessage();
+        message.setDeviceName("camera");
+        message.setOperateId(Camera.OperateId.CAMERA_AUTO_EXPOSURE.getVal());
+        return gson.toJson(message);
+    }
 }

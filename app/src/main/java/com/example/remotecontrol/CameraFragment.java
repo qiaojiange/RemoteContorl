@@ -45,6 +45,10 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
     private Button btStartPreview;
     private Button btStopPreview;
     private Button btTransPicture;
+    /**
+     * 自动曝光
+     */
+    private Button btAutoExposure;
 
     private Button btUpdate;
     private Button btSaveImage;
@@ -60,6 +64,8 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
     //选择图片的位数
     private RadioGroup rg;
 
+    //设备状态信心
+    private TextView tvStatus;
 
     private Gson gson = new Gson();
 
@@ -83,6 +89,8 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.camera_layout, container, false);
 
+        tvStatus = (TextView)view.findViewById(R.id.status);
+
         btConnect = (Button) view.findViewById(R.id.connect);
         btDisconnect = (Button) view.findViewById(R.id.disconnect);
         btRefresh = (Button) view.findViewById(R.id.refresh);
@@ -92,7 +100,7 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 
         btStopPreview = (Button) view.findViewById(R.id.stop_preview);
         btTransPicture = (Button) view.findViewById(R.id.trans_picture);
-
+        btAutoExposure = (Button)view.findViewById(R.id.auto_exposure);
 
         tvExposure = (TextView) view.findViewById(R.id.exposure);
         tvGain = (TextView) view.findViewById(R.id.gain);
@@ -104,12 +112,15 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
         imageView = (ImageView) view.findViewById(R.id.image);
 
 
+
+
         btConnect.setOnClickListener(this);
         btDisconnect.setOnClickListener(this);
         btRefresh.setOnClickListener(this);
         btStartPreview.setOnClickListener(this);
         btUpdate.setOnClickListener(this);
         btSaveImage.setOnClickListener(this);
+        btAutoExposure.setOnClickListener(this);
 
         btStopPreview.setOnClickListener(this);
         btTransPicture.setOnClickListener(this);
@@ -133,14 +144,16 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 
     }
 
+//    是否正在预览
     private boolean isPriview = false;
+
+    private PreviewThread previewThread = new PreviewThread();
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.connect:
-//                Toast.makeText(getActivity(),"connect",Toast.LENGTH_SHORT).show();
                 LogUtil.d(TAG, "---connect--");
                 connect();
                 break;
@@ -166,31 +179,131 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
             case R.id.stop_preview:
                 LogUtil.d(TAG, "--stop_preview--");
 //                if(isPriview){
-                stopPreview();
+                    stopPreview();
 //                }
                 break;
 
             case R.id.trans_picture:
                 LogUtil.d(TAG, "--trans_picture--");
-               // if (isPriview) {
                     transPicture();
-//                }
                 break;
-
 
             case R.id.update:
                 LogUtil.d(TAG, "---Update--");
                 setParameter();
                 break;
+
             case R.id.save_image:
                 LogUtil.d(TAG, "---save_image--");
-
+                saveImage();
                 break;
-
+            case R.id.auto_exposure:
+                LogUtil.d(TAG,"-------auto_exposure-----");
+                autoExposure();
             default:
                 break;
         }
+    }
 
+    private void autoExposure() {
+        RequestBody requestBody = RequestBody.create(mediaType,CameraDao.jsonAutoExposure());
+        HttpUtil.post(requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String strLen = response.header("Content-Length");
+
+                String str = new String(response.peekBody(Integer.parseInt(strLen)).bytes(), "utf-8");
+                LogUtil.d(TAG, "--------" + str);
+                final RecvMessage recvMessage = gson.fromJson(str, RecvMessage.class);
+
+                LogUtil.d(TAG, "---" + recvMessage.toString());
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(recvMessage.getStatus()==Camera.CameraStatus.CAMERA_STATUS_OK.ordinal() ){
+                            String str = recvMessage.getParams();
+
+                            Gson gson = new Gson();
+                            Temp temp = gson.fromJson(str,Temp.class);
+
+                            tvExposure.setText(""+temp.getExposureTime());
+                            LogUtil.d(TAG,"------"+temp.getExposureTime());
+                            tvStatus.setText(recvMessage.getDescribe());
+                        }else{
+                            LogUtil.d(TAG, "----exposure failure--" + recvMessage.getDescribe());
+                            tvStatus.setText(recvMessage.getDescribe());
+                            //Toast.makeText(getActivity(),recvMessage.getDescribe(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
+//    临时的类，用于json解析
+  private static  class Temp{
+        private float exposureTime;
+
+        public float getExposureTime() {
+            return exposureTime;
+        }
+
+        public void setExposureTime(float exposureTime) {
+            this.exposureTime = exposureTime;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        LogUtil.d(TAG,"-------onDestroy------");
+        super.onDestroy();
+    }
+
+    private void saveImage() {
+        RequestBody requestBody = RequestBody.create(mediaType,CameraDao.jsonSavePicture());
+        HttpUtil.post(requestBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String strLen = response.header("Content-Length");
+
+                String str = new String(response.peekBody(Integer.parseInt(strLen)).bytes(), "utf-8");
+                LogUtil.d(TAG, "--------" + str);
+                final RecvMessage recvMessage = gson.fromJson(str, RecvMessage.class);
+
+                LogUtil.d(TAG, "---" + recvMessage.getDescribe());
+
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvStatus.setText(recvMessage.getDescribe());
+//                        if (recvMessage.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
+//
+//                            tvStatus.setText(recvMessage.getDescribe());
+//                           // Toast.makeText(getActivity(), "save picture success!", Toast.LENGTH_SHORT).show();
+////                            连接成功就要调用刷新参数的功能，否则预览之后直接保存成jpg,会导致服务器端的相机获取视频流函数执行崩溃。
+//                           // getParameter();
+//                        } else {
+//
+//                            Toast.makeText(getActivity(), "save picture failure!", Toast.LENGTH_SHORT).show();
+//                        }
+                    }
+                });
+
+            }
+            });
 
     }
 
@@ -219,7 +332,8 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), recvMessage.getDescribe(), Toast.LENGTH_SHORT).show();
+                        tvStatus.setText(recvMessage.getDescribe());
+//                        Toast.makeText(getActivity(), recvMessage.getDescribe(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -257,13 +371,13 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                     @Override
                     public void run() {
                         if (recvMessage.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
-
-                            Toast.makeText(getActivity(), "connect success!", Toast.LENGTH_SHORT).show();
+                            tvStatus.setText(recvMessage.getDescribe());
+//                            Toast.makeText(getActivity(), "connect success!", Toast.LENGTH_SHORT).show();
 //                            连接成功就要调用刷新参数的功能，否则预览之后直接保存成jpg,会导致服务器端的相机获取视频流函数执行崩溃。
                             getParameter();
                         } else {
-
-                            Toast.makeText(getActivity(), "connect failure!", Toast.LENGTH_SHORT).show();
+                            tvStatus.setText(recvMessage.getDescribe());
+//                            Toast.makeText(getActivity(), "connect failure!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -310,7 +424,8 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                             tvHeight.setText("" + camera.getHeigh());
                         }
                         LogUtil.d(TAG, "---" + recvMessage.getDescribe());
-                        Toast.makeText(getActivity(),recvMessage.getDescribe(),Toast.LENGTH_SHORT).show();
+                        tvStatus.setText(recvMessage.getDescribe());
+                        //Toast.makeText(getActivity(),recvMessage.getDescribe(),Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -383,11 +498,12 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (message.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
-                            Toast.makeText(getActivity(), message.getDescribe(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), message.getDescribe(), Toast.LENGTH_SHORT).show();
-                        }
+                        tvStatus.setText(message.getDescribe());
+//                        if (message.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
+//                            Toast.makeText(getActivity(), message.getDescribe(), Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(getActivity(), message.getDescribe(), Toast.LENGTH_SHORT).show();
+//                        }
                     }
                 });
             }
@@ -419,18 +535,13 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (message.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
-                        }
-                        Toast.makeText(getActivity(), message.getDescribe(), Toast.LENGTH_SHORT).show();
+                         tvStatus.setText(message.getDescribe());
+//                        if (message.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
+//                        }
+//                        Toast.makeText(getActivity(), message.getDescribe(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
-//                if (message.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()){
-////                    if(null == previewThread){
-////                        previewThread = new PreviewThread();
-////                    }
-////                    previewThread.start();
-//                }
 
             }
         });
@@ -465,7 +576,9 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
                         if (recvMessage.getStatus() == Camera.CameraStatus.CAMERA_STATUS_OK.ordinal()) {
                             isPriview = false;
                         }
-                        Toast.makeText(getActivity(), recvMessage.getDescribe(), Toast.LENGTH_SHORT).show();
+                        tvStatus.setText(recvMessage.getDescribe());
+
+//                        Toast.makeText(getActivity(), recvMessage.getDescribe(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -484,36 +597,35 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
     }
 
 
-//    private class PreviewThread extends Thread {
-//
-//        private  boolean goon = true;
-//
-//        public void setGoon(boolean goon) {
-//            this.goon = goon;
-//        }
-//        private  TransPictureTask transPictureTask = new TransPictureTask();
-//        private String json = CameraDao.jsonTransPicture();
-//
-//        @Override
-//        public void run() {
-//            //super.run();
-//            while (goon) {
-//
-//                transPictureTask.execute(json);
+    private class PreviewThread extends Thread {
+
+        private volatile  boolean goon = true;
+
+        public void setGoon(boolean goon) {
+            this.goon = goon;
+        }
+
+        @Override
+        public void run() {
+            //super.run();
+            while (goon) {
+                TransPictureTask transPictureTask = new TransPictureTask();
+                String json = CameraDao.jsonTransPicture();
+
+                transPictureTask.execute(json);
 //                try {
 //                    sleep(2000);
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
-//            }
-//
-//        }
-//    }
+
+            }
+
+        }
+    }
 
     private class TransPictureTask extends AsyncTask<String, Void, byte[]> {
-
         byte[] bytes = null;
-
         @Override
         protected byte[] doInBackground(String... params) {
             LogUtil.d(TAG, "----TransPictureTask--------doInBackground---------");
@@ -555,7 +667,7 @@ public class CameraFragment extends CustumFragment implements View.OnClickListen
 
         @Override
         protected void onPostExecute(byte[] date) {
-
+        //显示图片
             super.onPostExecute(date);
             if (date != null && date.length != 0) {
                 Glide.with(getActivity()).load(date).into(imageView);

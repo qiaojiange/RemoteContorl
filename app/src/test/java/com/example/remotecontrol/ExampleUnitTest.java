@@ -36,20 +36,25 @@ public class ExampleUnitTest {
 
     @Test
     public void test(){
-        String strPorts = "{\"port\":[\"COM1\",\"R\",\"COM5\"]}";
+       String str = "{\"exposureTime\":30.50}\n";
 
         Gson gson = new Gson();
+        Temp temp = gson.fromJson(str,Temp.class);
+        System.out.println("---------"+ temp.getExposureTime());
+    }
 
+    class Temp{
+        private float exposureTime;
 
-
-
-        Port port = gson.fromJson(strPorts,Port.class);
-        for(String p:port.getPort()){
-            System.out.println(p);
+        public float getExposureTime() {
+            return exposureTime;
         }
 
-
+        public void setExposureTime(float exposureTime) {
+            this.exposureTime = exposureTime;
+        }
     }
+
 
 
 //    public void addition_isCorrect() throws Exception {

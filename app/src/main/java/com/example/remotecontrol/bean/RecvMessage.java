@@ -49,4 +49,14 @@ public class RecvMessage {
     public void setParams(String params) {
         this.params = params;
     }
+
+    @Override
+    public String toString() {
+        return "RecvMessage{" +
+                "status=" + status +
+                ", describe='" + describe + '\'' +
+                ", deviceName='" + deviceName + '\'' +
+                ", params='" + params + '\'' +
+                '}';
+    }
 }

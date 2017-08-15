@@ -1,6 +1,7 @@
 package com.example.remotecontrol;
 
 import android.content.DialogInterface;
+import android.nfc.Tag;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.example.remotecontrol.utils.HttpUtil;
+import com.example.remotecontrol.utils.LogUtil;
 import com.example.remotecontrol.utils.SPUtil;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private Toolbar toolbar;
     private FragmentPagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.setting:
+                //修改ip地址
                 Log.d(TAG, "onOptionsItemSelected: setting");
                 Toast.makeText(getApplicationContext(),"setting",Toast.LENGTH_SHORT).show();
                 final TableLayout ipAddressForm = (TableLayout)getLayoutInflater().inflate(R.layout.ip_address,null);
@@ -95,38 +99,42 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 }).show();
-
-
                 break;
-
-
         }
         return true;
     }
 
     @Override
     public void onBackPressed() {
+
         AlertDialog dialog = new AlertDialog.Builder(this).setTitle("提醒")
                 .setMessage("确定退出吗？")
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        
+
                     }
                 })
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(TAG, "onClick: 退出应用-----");
-                        MainActivity.super.onBackPressed();
-                        finish();
+                        MainActivity.this.finish();
                     }
                 }).show();
-        
-                
+
     }
 
-    class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
+    @Override
+    protected void onDestroy() {
+        LogUtil.d(TAG,"---MainActivity-----onDestroy---");
+        super.onDestroy();
+
+
+    }
+
+    //页面适配器
+  static  class SimpleFragmentPagerAdapter extends FragmentPagerAdapter{
         private List<CustumFragment> list;
 
         public SimpleFragmentPagerAdapter(FragmentManager fm) {
@@ -136,6 +144,12 @@ public class MainActivity extends AppCompatActivity {
 //            list.add(new ShowPictureFragment("图像显示"));
             list.add(new CameraFragment("CCD参数"));
             list.add(new LctfFragment("LCTF参数"));
+        }
+
+        public void onDestroy(){
+            for(CustumFragment  fragment : list){
+                fragment.onDestroy();
+            }
         }
 
         @Override

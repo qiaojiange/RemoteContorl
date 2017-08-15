@@ -6,6 +6,7 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -401,6 +402,13 @@ public class LctfFragment extends CustumFragment implements View.OnClickListener
 
     }
 
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+    }
+
+    //写内部参数
     private void writeInterParams() {
         Lctf.WorkParams workParams = new Lctf.WorkParams();
         int forceWork = 0;
@@ -425,11 +433,35 @@ public class LctfFragment extends CustumFragment implements View.OnClickListener
         int ctrlType = continuosGrp | forceWork;
         workParams.setCtrlType(ctrlType);
 
-        workParams.setCurWavLen(Integer.parseInt(etCurrWavLen.getText().toString()));
-        workParams.setEndWavLen(Integer.parseInt(etEndWavLen.getText().toString()));
-        workParams.setMinStepWavLen(Integer.parseInt(etMinStepWavLen.getText().toString()));
-        workParams.setSingleWavWorkTime(Integer.parseInt(etMinSwitchTime.getText().toString()));
-        workParams.setStartWavLen(Integer.parseInt(etStartWavLen.getText().toString()));
+        String strTemp = etCurrWavLen.getText().toString();
+        if(TextUtils.isEmpty(strTemp)){
+            return;
+        }
+        workParams.setCurWavLen(Integer.parseInt(strTemp));
+
+        strTemp = etEndWavLen.getText().toString();
+        if(TextUtils.isEmpty(strTemp)){
+            return;
+        }
+        workParams.setEndWavLen(Integer.parseInt(strTemp));
+
+        strTemp = etMinStepWavLen.getText().toString();
+        if(TextUtils.isEmpty(strTemp)){
+            return;
+        }
+        workParams.setMinStepWavLen(Integer.parseInt(strTemp));
+
+        strTemp = etMinSwitchTime.getText().toString();
+        if(TextUtils.isEmpty(strTemp)){
+            return;
+        }
+        workParams.setSingleWavWorkTime(Integer.parseInt(strTemp));
+
+        strTemp = etStartWavLen.getText().toString();
+        if(TextUtils.isEmpty(strTemp)){
+            return;
+        }
+        workParams.setStartWavLen(Integer.parseInt(strTemp));
 
         String params = LctfDao.gson.toJson(workParams);
         LogUtil.d(TAG,"----------"+params);
