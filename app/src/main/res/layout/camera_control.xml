@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_margin="15dp"
+    android:background="@color/background"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TableRow >
+            <Button
+                android:text="Start Preview"
+                android:id="@+id/start_preview"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                />
+
+
+            <Button
+                android:text="Trans Picture"
+                android:id="@+id/trans_picture"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                />
+
+            <Button
+                android:text="Stop Preview"
+                android:id="@+id/stop_preview"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                />
+
+        </TableRow>
+
+        <TableRow >
+
+            <Button
+                android:text="Auto Exposure"
+                android:id="@+id/auto_exposure"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                />
+
+            <Button
+                android:text="Save image"
+                android:id="@+id/save_image"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                />
+        </TableRow>
+
+
+
+
+    </TableLayout>
+
+</LinearLayout>

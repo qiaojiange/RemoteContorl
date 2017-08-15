@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    android:background="#8000"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+
+            <TextView
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="@color/textColor"
+                android:text="起始波长(nm):" />
+
+            <EditText
+                android:id="@+id/stareWavelength"
+                android:textColor="@color/textColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textColor="@color/textColor"
+                android:text="终止波长(nm):" />
+
+            <EditText
+                android:id="@+id/endWavelength"
+                android:layout_width="0dp"
+                android:textColor="@color/textColor"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/textColor"
+                android:text="最小步进波长(nm):" />
+
+            <EditText
+                android:id="@+id/minStepWavelength"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor"
+                android:layout_weight="1" />
+        </TableRow>
+
+
+        <TableRow>
+            <TextView
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/textColor"
+                android:text="最小切换时间(nm):" />
+
+            <EditText
+                android:id="@+id/minSwitchTime"
+                android:layout_width="0dp"
+                android:textColor="@color/textColor"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/textColor"
+                android:text="当前波长(mn):" />
+
+            <EditText
+                android:id="@+id/currentWavelength"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/textColor"
+                />
+
+        </TableRow>
+
+        <TableRow>
+            <Spinner
+                android:layout_gravity="center"
+                android:id="@+id/continueWork"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:entries="@array/spContinuesWork"
+                android:layout_weight="1">
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/forceWork"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:entries="@array/spForceWork"
+                android:layout_weight="1">
+            </Spinner>
+
+        </TableRow>
+
+        <TableRow android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioGroup android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:id="@+id/workPartner"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/synPartern"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:textColor="@color/textColor"
+                    android:text="同步方式" />
+
+                <RadioButton
+                    android:id="@+id/asynPartern"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/textColor"
+                    android:text="异步方式" />
+
+            </RadioGroup>
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/readInterParams"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="读取内部参数" />
+
+            <Button
+                android:id="@+id/writeInterParams"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="写入内部参数" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/startWork"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="开始工作" />
+
+            <Button
+                android:id="@+id/stopWork"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="停止工作" />
+        </TableRow>
+
+
+    </TableLayout>
+
+</LinearLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="spContinuesWork">
+        <item>单组工作</item>
+        <item>连续工作</item>
+    </string-array>
+
+
+    <string-array name="spForceWork">
+        <item>超温后强制工作</item>
+        <item>超温后停止工作</item>
+    </string-array>
+
+</resources>
